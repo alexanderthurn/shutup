@@ -40,8 +40,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
   btnMute.style.display = 'block'
   btnMute.style.font = '20px Arial'
   btnMute.style.width ='80%'
- btnMute.style.height= '50px'
+  btnMute.style.minHeight= '50px'
   btnMute.style.marginLeft = '10%'
+  btnMute.style.textAlign = 'right'
+  btnMute.style.marginBottom = '20px'
+  
   document.body.appendChild(btnMute)
 
 
@@ -51,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   textInfo.style.width ='80%'
   textInfo.style.textAlign ='center'
   textInfo.style.color = '#ffffff'
-  textInfo.innerHTML = 'This application uses your microphone to detect the noise level in your office, room or wherever you are. You can choose a specific noise level that you are willing to take. If the volume gets above this level, an evil sine alarm sound will crush your noise enemy. Have fun. Author: Alexander Thurn 2017, <a style="color: #ffffff" href="https://froso.de">Frontend Solutions</a>'
+  textInfo.innerHTML = 'This application uses your microphone to detect the noise level in your office, room or wherever you are. You can choose a specific noise level that you are willing to take. If the volume gets above this level, an evil sine alarm sound will crush your noise enemy. Have fun. Author: Alexander Thurn 2017, <p><a style="color: #ffffff" href="https://froso.de">Frontend Solutions</a> <a style="color: #ffffff" href="https://github.com/alexanderthurn/shutup">Github</a></p>'
 
   document.body.appendChild(textInfo)
 
@@ -61,15 +64,21 @@ document.addEventListener("DOMContentLoaded", function(event) {
     btnMute.innerHTML = message
   }
 
-  function showErrorBrowserNotSupporting() {
+  function showErrorBrowserNotSupporting(message, code) {
     error = true
     btnMute.style.font = "30px Arial"
+  btnMute.style.textAlign = 'center'
 
-    if (window.location.protocol && window.location.protocol.indexOf('https') > -1) {
-      showMessage('Sorry. This browser does not support microphone access (Or you did not allow the access). The app does not work without access. Please use e.g. Chrome 14+ !')
+    if (!message) {
+    	 if (window.location.protocol && window.location.protocol.indexOf('https') > -1) {
+	      showMessage('Sorry. This browser does not support microphone access (Or you did not allow the access). The app does not work without access. Best solution right now is a modern Chrome on a desktop computer (mac/windows/linux) !' + (code ? '['+ code +']' : ''))
+	    } else {
+	      showMessage('Sorry. This browser does not support microphone access (Or you are not accessing this page via https). The app does not work without access. Best solution right now is a modern Chrome on a desktop computer (mac/windows/linux) !'+ (code ? '['+ code +']' : ''))
+	    }
     } else {
-      showMessage('Sorry. This browser does not support microphone access (Or you are not accessing this page via https). The app does not work without access. Please check if you are using https and use e.g. Chrome 14+ !')
+    	showMessage(message)
     }
+   
     
   }
 
@@ -85,8 +94,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
                          navigator.msGetUserMedia);
 
 
-  if (!AudioContext || !navigator.getUserMedia) {
-    showErrorBrowserNotSupporting()
+  if (!AudioContext || !navigator.getUserMedia || !Array.prototype.slice) {
+  	showErrorBrowserNotSupporting(null, (!AudioContext*2) + (!navigator.getUserMedia*4) + (!Array.prototype.slice*8))
     return
   }
 
@@ -130,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
       var array =  new Uint8Array(analyserNode.frequencyBinCount)
       analyserNode.getByteFrequencyData(array)
       var average = getAverageVolume(array)
-      globalAverage = average*0.03
+      globalAverage = average*0.05
   }
 
 
@@ -144,11 +153,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
     javascriptNode.connect(audioCtxMic.destination)
     showMessage('Mute alarm sound')
 
+
+
   }, function() {
-
-
-
-    showErrorBrowserNotSupporting()
+    showErrorBrowserNotSupporting(null, 16)
     return
   })
 
@@ -240,9 +248,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
       //var currentValue = values[0];
 
-      var currentValue = values.slice(0,60-1).reduce(function(acc, val) {
-        return acc+val;
-      }, 0) / 60;
+      var currentValue = getAverageVolume(values.slice(0,30))
 
       var tooLoud = currentValue > canvasHistorySelectedValue
       if (tooLoud) {
@@ -268,6 +274,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
 
+  window.onresize = function(event) {
+    arrayLength = Math.floor(document.body.clientWidth)
+    canvasHistory.width  = Math.floor(arrayLength)
+    canvasHistory.height = Math.floor(arrayLength*0.3)
+
+    while(values.length < arrayLength) {
+    	values.push(0)
+    }
+    
+  };
+
+
   function getCursorPosition(canvas, event) {
       var rect = canvas.getBoundingClientRect()
       return {x: event.clientX - rect.left, y: event.clientY - rect.top}
@@ -288,11 +306,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
   }
 
 
-  window.onresize = function(event) {
-    arrayLength = Math.floor(document.body.clientWidth)
-    canvasHistory.width  = Math.floor(arrayLength)
-    canvasHistory.height = Math.floor(arrayLength*0.3)
-  };
 
 })
 
