@@ -2,7 +2,11 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-module.exports = {
+
+var optimize = false;
+
+
+var config = {
     entry: "./src/js/main.js",
     output: {
         path: __dirname + '/dist/',
@@ -14,41 +18,49 @@ module.exports = {
         ]
     },
 
-    plugins: [
-        new UglifyJsPlugin({
-            compress: {
-                sequences: true,
-                properties: true,
-                drop_debugger: true,
-                dead_code: true,
-                unsafe: true,
-                conditionals: true,
-                comparisons: true,
-                evaluate: true,
-                booleans: true,
-                unused: true,
-                loops: true,
-                cascade: true,
-                keep_fargs: false,
-                if_return: true,
-                join_vars: true,
-                drop_console: true
-            },
-            'mangle-props': true,
-            mangle: true,
-            beautify: false
-        }),
-        new HtmlWebpackPlugin({
-            filename: 'index.html',
-            template: "src/index.htm",
-            minify: {
-                minifyJS: true,
-                removeEmptyAttributes: true
-            },
-            inlineSource: '.(js|css)$',
-            cache: true
-        }),
-        new HtmlWebpackInlineSourcePlugin()
-    ]
-};
+    plugins: []
+}
+
+config.plugins.push(
+    new UglifyJsPlugin({
+        compress: {
+            sequences: true,
+            properties: true,
+            drop_debugger: true,
+            dead_code: true,
+            unsafe: true,
+            conditionals: true,
+            comparisons: true,
+            evaluate: true,
+            booleans: true,
+            unused: true,
+            loops: true,
+            cascade: true,
+            keep_fargs: false,
+            if_return: true,
+            join_vars: true,
+            drop_console: true
+        },
+        'mangle-props': true,
+        mangle: true,
+        beautify: false
+    }));
+
+config.plugins.push(
+    new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: "src/index.htm",
+        minify: {
+            minifyJS: true,
+            removeEmptyAttributes: true
+        },
+        inlineSource: '.(js|css)$',
+        cache: true
+    }));
+
+config.plugins.push(
+    new HtmlWebpackInlineSourcePlugin()
+);
+
+module.exports = config;
 

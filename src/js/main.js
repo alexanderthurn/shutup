@@ -1,3 +1,6 @@
+var helper = require('./helper.js')
+
+
 document.addEventListener("DOMContentLoaded", function (event) {
 
     var sineFrequency = 5800
@@ -121,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         var array = new Uint8Array(analyserNode.frequencyBinCount)
         analyserNode.getByteFrequencyData(array)
-        var average = getAverageVolume(array)
+        var average = helper.getAverageValue(array)
         globalAverage = average * 0.05
     }
 
@@ -160,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     canvasHistory.addEventListener('click', function (event) {
 
-        var pos = getCursorPosition(canvasHistory, event)
+        var pos = helper.getCursorPosition(canvasHistory, event)
         canvasHistorySelectedValue = 1 - pos.y / canvasHistory.offsetHeight
 
     }, false)
@@ -223,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
             //var currentValue = values[0];
 
-            var currentValue = getAverageVolume(values.slice(0, 30))
+            var currentValue = helper.getAverageValue(values.slice(0, 30))
 
             var tooLoud = currentValue > canvasHistorySelectedValue
             if (tooLoud) {
@@ -258,26 +261,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
 
     };
-
-
-    function getCursorPosition(canvas, event) {
-        var rect = canvas.getBoundingClientRect()
-        return {x: event.clientX - rect.left, y: event.clientY - rect.top}
-    }
-
-    function getAverageVolume(array) {
-        var values = 0
-        var average
-
-        var length = array.length
-
-        for (var i = 0; i < length; i++) {
-            values += array[i]
-        }
-
-        average = values / length
-        return average
-    }
 
 
 })
