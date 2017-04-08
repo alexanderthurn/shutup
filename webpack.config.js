@@ -18,9 +18,15 @@ var config = {
         filename: "bundle.js"
     },
     module: {
-        loaders: [
-            {test: /\.css$/, loader: "style!css"}
-        ]
+        // loaders: [
+        //     {
+        //         test: /\.html$/,
+        //         loader: 'file-loader',
+        //         query: {
+        //             name: '[name].[ext]'
+        //         }
+        //     }
+        // ]
     },
 
     plugins: [new WebpackCleanupPlugin()]
@@ -58,7 +64,7 @@ if (isProduction) {
 config.plugins.push(
     new HtmlWebpackPlugin({
         filename: 'index.html',
-        template: "src/index.htm",
+        template: "src/index.html",
         minify: {
             minifyJS: true,
             removeEmptyAttributes: true
