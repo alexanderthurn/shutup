@@ -1,10 +1,13 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+var CompressionPlugin = require('compression-webpack-plugin');
+var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+
+var isProduction = process.env.NODE_ENV === 'production';
 
 
-var optimize = false;
-
+console.log('Building with NODE_ENV', process.env.NODE_ENV);
 
 var config = {
     entry: "./src/js/main.js",
@@ -18,34 +21,38 @@ var config = {
         ]
     },
 
-    plugins: []
+    plugins: [new WebpackCleanupPlugin()]
+};
+
+
+if (isProduction) {
+    config.plugins.push(
+        new UglifyJsPlugin({
+            compress: {
+                sequences: true,
+                properties: true,
+                drop_debugger: true,
+                dead_code: true,
+                unsafe: true,
+                conditionals: true,
+                comparisons: true,
+                evaluate: true,
+                booleans: true,
+                unused: true,
+                loops: true,
+                cascade: true,
+                keep_fargs: false,
+                if_return: true,
+                join_vars: true,
+                drop_console: true
+            },
+            'mangle-props': true,
+            mangle: true,
+            beautify: false
+        }));
 }
-/*
- config.plugins.push(
- new UglifyJsPlugin({
- compress: {
- sequences: true,
- properties: true,
- drop_debugger: true,
- dead_code: true,
- unsafe: true,
- conditionals: true,
- comparisons: true,
- evaluate: true,
- booleans: true,
- unused: true,
- loops: true,
- cascade: true,
- keep_fargs: false,
- if_return: true,
- join_vars: true,
- drop_console: true
- },
- 'mangle-props': true,
- mangle: true,
- beautify: false
- }));
- */
+
+
 config.plugins.push(
     new HtmlWebpackPlugin({
         filename: 'index.html',
@@ -57,10 +64,21 @@ config.plugins.push(
         inlineSource: '.(js|css)$',
         cache: true
     }));
-/*
- config.plugins.push(
- new HtmlWebpackInlineSourcePlugin()
- );
- */
+
+if (isProduction) {
+    config.plugins.push(
+        new HtmlWebpackInlineSourcePlugin()
+    );
+
+
+    config.plugins.push(new CompressionPlugin({
+        asset: "[path].gz",
+        algorithm: "zopfli",
+
+        test: /\.js$|\.css$|\.html|\.htm$/
+    }));
+}
+
+
 module.exports = config;
 

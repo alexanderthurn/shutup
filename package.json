@@ -2,10 +2,11 @@
   "name": "shutup",
   "version": "1.0.0",
   "description": "shut'em up",
-  "main": "index.htm",
+  "main": "dist/bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack"
+    "build": "cross-env NODE_ENV=development webpack",
+    "build:production": "cross-env NODE_ENV=production webpack -p"
   },
   "repository": {
     "type": "git",
@@ -24,9 +25,12 @@
   },
   "homepage": "https://github.com/alexanderthurn/shutup#readme",
   "devDependencies": {
+    "compression-webpack-plugin": "^0.4.0",
+    "cross-env": "^4.0.0",
     "html-webpack-inline-source-plugin": "0.0.7",
     "html-webpack-plugin": "^2.28.0",
     "uglifyjs-webpack-plugin": "^0.4.1",
-    "webpack": "^2.3.3"
+    "webpack": "^2.3.3",
+    "webpack-cleanup-plugin": "^0.5.1"
   }
 }
