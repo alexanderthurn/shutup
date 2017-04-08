@@ -1,0 +1,25 @@
+{
+  "name": "shutup",
+  "version": "1.0.0",
+  "description": "shut'em up",
+  "main": "index.htm",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://alexanderthurn@github.com/alexanderthurn/shutup.git"
+  },
+  "keywords": [
+    "shutup",
+    "noise",
+    "microphone",
+    "html5"
+  ],
+  "author": "Alexander Thurn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexanderthurn/shutup/issues"
+  },
+  "homepage": "https://github.com/alexanderthurn/shutup#readme"
+}
