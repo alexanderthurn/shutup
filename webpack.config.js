@@ -20,32 +20,32 @@ var config = {
 
     plugins: []
 }
-
-config.plugins.push(
-    new UglifyJsPlugin({
-        compress: {
-            sequences: true,
-            properties: true,
-            drop_debugger: true,
-            dead_code: true,
-            unsafe: true,
-            conditionals: true,
-            comparisons: true,
-            evaluate: true,
-            booleans: true,
-            unused: true,
-            loops: true,
-            cascade: true,
-            keep_fargs: false,
-            if_return: true,
-            join_vars: true,
-            drop_console: true
-        },
-        'mangle-props': true,
-        mangle: true,
-        beautify: false
-    }));
-
+/*
+ config.plugins.push(
+ new UglifyJsPlugin({
+ compress: {
+ sequences: true,
+ properties: true,
+ drop_debugger: true,
+ dead_code: true,
+ unsafe: true,
+ conditionals: true,
+ comparisons: true,
+ evaluate: true,
+ booleans: true,
+ unused: true,
+ loops: true,
+ cascade: true,
+ keep_fargs: false,
+ if_return: true,
+ join_vars: true,
+ drop_console: true
+ },
+ 'mangle-props': true,
+ mangle: true,
+ beautify: false
+ }));
+ */
 config.plugins.push(
     new HtmlWebpackPlugin({
         filename: 'index.html',
@@ -57,10 +57,10 @@ config.plugins.push(
         inlineSource: '.(js|css)$',
         cache: true
     }));
-
-config.plugins.push(
-    new HtmlWebpackInlineSourcePlugin()
-);
-
+/*
+ config.plugins.push(
+ new HtmlWebpackInlineSourcePlugin()
+ );
+ */
 module.exports = config;
 

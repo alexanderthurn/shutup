@@ -70,15 +70,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 
 
-    var AudioContext = ( AudioContext || window.AudioContext ||
-    window.webkitAudioContext ||
-    window.mozAudioContext ||
-    window.msAudioContext)
-
-    navigator.getUserMedia = ( navigator.getUserMedia ||
-    navigator.webkitGetUserMedia ||
-    navigator.mozGetUserMedia ||
-    navigator.msGetUserMedia);
+    var AudioContext = helper.getAudioContext()
+    navigator.getUserMedia = helper.getUserMedia()
 
 
     if (!AudioContext || !navigator.getUserMedia || !Array.prototype.slice) {

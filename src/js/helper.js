@@ -18,7 +18,26 @@ function getAverageValue(array) {
 }
 
 
+function getUserMedia() {
+    return ( navigator.getUserMedia ||
+    navigator.webkitGetUserMedia ||
+    navigator.mozGetUserMedia ||
+    navigator.msGetUserMedia)
+
+
+}
+
+function getAudioContext() {
+    return ( AudioContext || window.AudioContext ||
+    window.webkitAudioContext ||
+    window.mozAudioContext ||
+    window.msAudioContext)
+}
 module.exports = {
     getCursorPosition: getCursorPosition,
-    getAverageValue: getAverageValue
+    getAverageValue: getAverageValue,
+    getUserMedia: getUserMedia,
+    getAudioContext: getAudioContext
 }
+
+
