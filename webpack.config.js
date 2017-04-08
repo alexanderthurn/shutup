@@ -3,6 +3,8 @@ var HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin')
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
+var BrotliPlugin = require('brotli-webpack-plugin');
+
 
 var isProduction = process.env.NODE_ENV === 'production';
 
@@ -66,16 +68,24 @@ config.plugins.push(
     }));
 
 if (isProduction) {
+
     config.plugins.push(
         new HtmlWebpackInlineSourcePlugin()
     );
 
-
     config.plugins.push(new CompressionPlugin({
         asset: "[path].gz",
         algorithm: "zopfli",
+        threshold: 0,
+        minRatio: 0.99,
+        test: /\.(js|css|htm|html|svg)$/,
+    }));
 
-        test: /\.js$|\.css$|\.html|\.htm$/
+    config.plugins.push(new BrotliPlugin({
+        asset: '[path].br',
+        test: /\.(js|css|htm|html|svg)$/,
+        threshold: 0,
+        minRatio: 0.99
     }));
 }
 
