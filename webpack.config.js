@@ -75,21 +75,6 @@ if (isProduction) {
     config.plugins.push(
         new HtmlWebpackInlineSourcePlugin()
     );
-
-    config.plugins.push(new CompressionPlugin({
-        asset: "[path].gz",
-        algorithm: "zopfli",
-        threshold: 0,
-        minRatio: 0.99,
-        test: /\.(js|css|htm|html|svg)$/,
-    }));
-
-    config.plugins.push(new BrotliPlugin({
-        asset: '[path].br',
-        test: /\.(js|css|htm|html|svg)$/,
-        threshold: 0,
-        minRatio: 0.99
-    }));
 }
 
 
