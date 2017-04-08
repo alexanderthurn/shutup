@@ -18,15 +18,12 @@ var config = {
         filename: "bundle.js"
     },
     module: {
-        // loaders: [
-        //     {
-        //         test: /\.html$/,
-        //         loader: 'file-loader',
-        //         query: {
-        //             name: '[name].[ext]'
-        //         }
-        //     }
-        // ]
+        loaders: [
+            {
+                test: /\.html$/,
+                loader: 'html-loader'
+            }
+        ]
     },
 
     plugins: [new WebpackCleanupPlugin()]
