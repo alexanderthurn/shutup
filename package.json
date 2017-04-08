@@ -26,6 +26,7 @@
   "devDependencies": {
     "html-webpack-inline-source-plugin": "0.0.7",
     "html-webpack-plugin": "^2.28.0",
+    "uglifyjs-webpack-plugin": "^0.4.1",
     "webpack": "^2.3.3"
   }
 }
