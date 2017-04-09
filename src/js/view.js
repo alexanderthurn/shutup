@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     textInfo.style.textAlign = 'center'
     textInfo.style.color = '#ffffff'
     textInfo.innerHTML = 'This application uses your microphone to detect the noise level in your office, room or wherever you are. You can choose a specific noise level that you are willing to take. If the volume gets above this level, an evil sine alarm sound will crush your noise enemy. Have fun. Author: Alexander Thurn 2017, <p><a style="color: #ffffff" href="https://froso.de">Frontend Solutions</a> <a style="color: #ffffff" href="https://github.com/alexanderthurn/shutup">Github</a></p>'
+    textInfo.innerHTML = ASD;
 
     document.body.appendChild(textInfo)
 

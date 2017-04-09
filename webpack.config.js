@@ -1,10 +1,8 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-var CompressionPlugin = require('compression-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
-var BrotliPlugin = require('brotli-webpack-plugin');
-
+var webpack = require('webpack');
 
 var isProduction = process.env.NODE_ENV === 'production';
 
@@ -21,7 +19,7 @@ var config = {
         loaders: [
             {
                 test: /\.html$/,
-                loader: 'html-loader'
+                loader: 'ejs-loader'
             }
         ]
     },
@@ -59,6 +57,9 @@ if (isProduction) {
 
 
 config.plugins.push(
+    new webpack.DefinePlugin({
+        ASD: JSON.stringify('DDD')
+    }),
     new HtmlWebpackPlugin({
         filename: 'index.html',
         template: "src/index.html",
