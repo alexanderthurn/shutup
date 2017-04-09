@@ -3,6 +3,11 @@ var HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin')
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 var webpack = require('webpack');
+var intlJSON = require('./src/res/en.json');
+
+Object.keys(intlJSON).map(function (key) {
+    intlJSON[key] = JSON.stringify(intlJSON[key]);
+});
 
 var isProduction = process.env.NODE_ENV === 'production';
 
@@ -57,9 +62,7 @@ if (isProduction) {
 
 
 config.plugins.push(
-    new webpack.DefinePlugin({
-        ASD: JSON.stringify('DDD')
-    }),
+    new webpack.DefinePlugin(intlJSON),
     new HtmlWebpackPlugin({
         filename: 'index.html',
         template: "src/index.html",
