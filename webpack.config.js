@@ -4,6 +4,7 @@ var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 var webpack = require('webpack');
 var intlJSON = require('./src/res/en.json');
+var path = require('path');
 
 Object.keys(intlJSON).map(function (key) {
     intlJSON[key] = JSON.stringify(intlJSON[key]);
@@ -12,9 +13,21 @@ Object.keys(intlJSON).map(function (key) {
 var isProduction = process.env.NODE_ENV === 'production';
 
 
-console.log('Building with NODE_ENV', process.env.NODE_ENV);
+console.log('Building with NODE_ENV', process.env.NODE_ENV, path.join(__dirname, "dist"));
 
 var config = {
+    /*  watch: !isProduction,
+     watchOptions: {
+     aggregateTimeout: 300,
+     poll: 1000,
+     ignored: /node_modules/
+     },*/
+    devServer: {
+        contentBase: path.join(__dirname, "dist"),
+        compress: false,
+        port: 9000,
+        watchContentBase: true
+    },
     entry: "./src/js/main.js",
     output: {
         path: __dirname + '/dist/',

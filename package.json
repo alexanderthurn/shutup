@@ -5,6 +5,7 @@
   "main": "dist/bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server",
     "build": "cross-env NODE_ENV=development webpack -d --verbose",
     "build:production": "cross-env NODE_ENV=production webpack -p --verbose && npm run build:final",
     "build:final": "node ./node_scripts/build_production.js"
@@ -39,6 +40,7 @@
     "node-zopfli": "^2.0.2",
     "uglifyjs-webpack-plugin": "^0.4.1",
     "webpack": "^2.3.3",
-    "webpack-cleanup-plugin": "^0.5.1"
+    "webpack-cleanup-plugin": "^0.5.1",
+    "webpack-dev-server": "^2.4.2"
   }
 }
