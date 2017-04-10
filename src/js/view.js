@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     function showErrorBrowserNotSupporting(message, code) {
         error = true
-        btnMute.style.font = "30px Arial"
+        btnMute.style.font = "24px Arial"
         btnMute.style.textAlign = 'center'
 
         if (!message) {
