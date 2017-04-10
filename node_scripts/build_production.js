@@ -2,6 +2,8 @@ var helper = require('./helper')
 var fs = require('fs-extra');
 var path = require('path');
 
+fs.removeSync('dist/bundle.js');
+
 helper.walk('dist', function (err, results) {
 
     if (err) throw err;

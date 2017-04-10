@@ -1,4 +1,13 @@
 {
   "TITLE": "Shut up",
-  "ASD": "AAAAAA"
+  "DESCRIPTION": "This application uses your microphone to detect the noise level in your office, room or wherever you are. You can choose a specific noise level that you are willing to take. If the volume gets above this level, an evil sine alarm sound will crush your noise enemy. Have fun. Author: Alexander Thurn 2017, <p><a style=\"color: #ffffff\" href=\"https://froso.de\">Frontend Solutions</a> <a style=\"color: #ffffff\" href=\"https://github.com/alexanderthurn/shutup\">Github</a></p>",
+  "ERROR_SUPPORT_WITH_HTTPS": "'Sorry. This browser does not support microphone access (Or you did not allow the access). The app does not work without access. Best solution right now is a modern Chrome on a desktop computer (mac/windows/linux) !",
+  "ERROR_SUPPORT_WITHOUT_HTTPS": "Sorry. This browser does not support microphone access (Or you are not accessing this page via https). The app does not work without access. Best solution right now is a modern Chrome on a desktop computer (mac/windows/linux) !",
+  "MUTE_ALARM": "Mute alarm sound",
+  "UNMUTE_ALARM": "Unmute alarm sound",
+  "SHUTUP_MESSAGE": "SHUT UP",
+  "Y_AXIS_LEVEL_DESCRIPTION": "MAXIMUM NOISE THAT YOU ARE WILLING TO TAKE",
+  "Y_AXIS_LEGEND": "NOISE LEVEL (no unit)",
+  "X_AXIS_LEGEND": "Time (seconds)",
+  "MUTE_INITIAL": "1. Allow mic access<br />2. Turn your speaker on"
 }

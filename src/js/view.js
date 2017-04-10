@@ -1,5 +1,8 @@
 var helper = require('./helper.js')
 
+if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '0.0.0.0') {
+    location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+}
 
 document.addEventListener("DOMContentLoaded", function (event) {
 
@@ -23,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     var btnMute = document.createElement('a')
     btnMute.id = 'btnMute'
-    btnMute.innerHTML = '1. Allow mic access<br />2. Turn your speaker on'
+    btnMute.innerHTML = INTL_MUTE_INITIAL
     btnMute.style.color = '#ffffff'
     btnMute.style.display = 'block'
     btnMute.style.font = '20px Arial'
@@ -42,8 +45,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     textInfo.style.width = '80%'
     textInfo.style.textAlign = 'center'
     textInfo.style.color = '#ffffff'
-    textInfo.innerHTML = 'This application uses your microphone to detect the noise level in your office, room or wherever you are. You can choose a specific noise level that you are willing to take. If the volume gets above this level, an evil sine alarm sound will crush your noise enemy. Have fun. Author: Alexander Thurn 2017, <p><a style="color: #ffffff" href="https://froso.de">Frontend Solutions</a> <a style="color: #ffffff" href="https://github.com/alexanderthurn/shutup">Github</a></p>'
-    textInfo.innerHTML = ASD;
+    textInfo.innerHTML = INTL_DESCRIPTION;
 
     document.body.appendChild(textInfo)
 
@@ -59,9 +61,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         if (!message) {
             if (window.location.protocol && window.location.protocol.indexOf('https') > -1) {
-                showMessage('Sorry. This browser does not support microphone access (Or you did not allow the access). The app does not work without access. Best solution right now is a modern Chrome on a desktop computer (mac/windows/linux) !' + (code ? '[' + code + ']' : ''))
+                showMessage(INTL_ERROR_SUPPORT_WITH_HTTPS + (code ? '[' + code + ']' : ''))
             } else {
-                showMessage('Sorry. This browser does not support microphone access (Or you are not accessing this page via https). The app does not work without access. Best solution right now is a modern Chrome on a desktop computer (mac/windows/linux) !' + (code ? '[' + code + ']' : ''))
+                showMessage(INTL_ERROR_SUPPORT_WITHOUT_HTTPS + (code ? '[' + code + ']' : ''))
             }
         } else {
             showMessage(message)
@@ -131,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         biquadFilter.connect(analyserNode)
         analyserNode.connect(javascriptNode)
         javascriptNode.connect(audioCtxMic.destination)
-        showMessage('Mute alarm sound')
+        showMessage(INTL_MUTE_ALARM)
 
 
     }, function () {
@@ -144,10 +146,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
         if (!error) {
             if (manualMuteFilter.gain.value > 0) {
                 manualMuteFilter.gain.value = 0
-                showMessage('Unmute alarm sound')
+                showMessage(INTL_UNMUTE_ALARM)
             } else {
                 manualMuteFilter.gain.value = 1
-                showMessage('Mute alarm sound')
+                showMessage(INTL_MUTE_ALARM)
             }
         }
     }
@@ -180,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         ctxHistory.textAlign = "center"
         ctxHistory.textBaseline = "middle"
         ctxHistory.fillStyle = 'rgba(255,0,0,' + noiseMuteFilter.gain.value + ')'
-        ctxHistory.fillText('SHUT UP', canvasHistory.width * 0.5, canvasHistory.height * 0.5)
+        ctxHistory.fillText(INTL_SHUTUP_MESSAGE, canvasHistory.width * 0.5, canvasHistory.height * 0.5)
 
         for (var i = 0; i < arrayLength; i++) {
             var value = values[i]
@@ -196,16 +198,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
         ctxHistory.fillStyle = '#ffffff'
         ctxHistory.textAlign = "left"
         ctxHistory.textBaseline = "bottom"
-        ctxHistory.fillText('MAXIMUM NOISE THAT YOU ARE WILLING TO TAKE', 5, (1 - canvasHistorySelectedValue) * canvasHistory.height - 1)
+        ctxHistory.fillText(INTL_Y_AXIS_LEVEL_DESCRIPTION, 5, (1 - canvasHistorySelectedValue) * canvasHistory.height - 1)
 
 
         ctxHistory.textAlign = "left"
         ctxHistory.textBaseline = "top"
-        ctxHistory.fillText('NOISE LEVEL (no unit)', 5, 0)
+        ctxHistory.fillText(INTL_Y_AXIS_LEGEND, 5, 0)
 
         ctxHistory.textAlign = "right"
         ctxHistory.textBaseline = "bottom"
-        ctxHistory.fillText('Time (seconds)', canvasHistory.width, canvasHistory.height - 2)
+        ctxHistory.fillText(INTL_X_AXIS_LEGEND, canvasHistory.width, canvasHistory.height - 2)
 
 
         ctxHistory.fillRect(0, 0, 2, canvasHistory.height)

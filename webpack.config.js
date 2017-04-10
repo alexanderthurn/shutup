@@ -5,10 +5,11 @@ var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 var webpack = require('webpack');
 var intlJSON = require('./src/res/en.json');
 var path = require('path');
-
+var intlJSONStringified = {};
 Object.keys(intlJSON).map(function (key) {
-    intlJSON[key] = JSON.stringify(intlJSON[key]);
+    intlJSONStringified['INTL_' + key] = JSON.stringify(intlJSON[key]);
 });
+intlJSON = intlJSONStringified;
 
 var isProduction = process.env.NODE_ENV === 'production';
 
