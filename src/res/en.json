@@ -1,0 +1,15 @@
+{
+  "TITLE": "Shut up",
+  "META_DESCRIPTION": "This HTML5 app uses your microphone to detect if it is too loud in your room. If the volume exceeds a defined limit, a sine alarm is played to make clear that the volume is too high.",
+  "META_TAGS": "Noise alarm, too loud,  shut up, microphone, html5, webaudioapi",
+  "DESCRIPTION": "This HTML5 app uses your microphone to detect if it is too loud in your room. If the volume exceeds a defined limit, a sine alarm is played to make clear that the volume is too high.. Have fun. Author: Alexander Thurn 2017<p><a style=\"color: #ffffff\" href=\"https://froso.de\">Frontend Solutions</a> <a style=\"color: #ffffff\" href=\"https://github.com/alexanderthurn/shutup\">Github</a></p>",
+  "ERROR_SUPPORT_WITH_HTTPS": "'Sorry. This browser does not support microphone access, or you did not allow the access). The app does not work without access. Best solution right now is a modern Chrome on a desktop computer (mac/windows/linux) !",
+  "ERROR_SUPPORT_WITHOUT_HTTPS": "Sorry. This browser does not support microphone access, or you did not allow the access. Another reason could be that you are not accessing this page via https. The app does not work without access. Best solution right now is a modern Chrome on a desktop computer (mac/windows/linux) !",
+  "MUTE_ALARM": "Mute alarm sound",
+  "UNMUTE_ALARM": "Unmute alarm sound",
+  "SHUTUP_MESSAGE": "SHUT UP",
+  "Y_AXIS_LEVEL_DESCRIPTION": "Maximum noise that you are willing to take (click anywhere to move the value)",
+  "Y_AXIS_LEGEND": "Noise level (percentage)",
+  "X_AXIS_LEGEND": "Time (seconds)",
+  "MUTE_INITIAL": "1. Allow mic access<br />2. Turn your speaker on"
+}
