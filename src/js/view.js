@@ -173,10 +173,17 @@ document.addEventListener("DOMContentLoaded", function (event) {
         values.push(0)
     }
 
+
     var updateCanvas = function (options) {
+
+        var my_gradient = ctxHistory.createLinearGradient(0, (1 - canvasHistorySelectedValue) * canvasHistory.height - 1, 0, canvasHistory.height);
+        my_gradient.addColorStop(0, "darkred");
+        my_gradient.addColorStop(0.5, "yellow");
+        my_gradient.addColorStop(1, "green");
 
         ctxHistory.fillStyle = '#000000'
         ctxHistory.fillRect(0, 0, canvasHistory.width, canvasHistory.height)
+
 
         ctxHistory.font = canvasHistory.height * 0.5 + "px Arial"
         ctxHistory.textAlign = "center"
@@ -186,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         for (var i = 0; i < arrayLength; i++) {
             var value = values[i]
-            ctxHistory.fillStyle = '#ff0000'
+            ctxHistory.fillStyle = my_gradient
             ctxHistory.fillRect(i * canvasHistory.width / arrayLength, canvasHistory.height - value * canvasHistory.height, canvasHistory.width / arrayLength, value * canvasHistory.height)
         }
 
@@ -212,6 +219,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         ctxHistory.fillRect(0, 0, 2, canvasHistory.height)
         ctxHistory.fillRect(0, canvasHistory.height - 2, canvasHistory.width, 2)
+
     }
 
     var updateCanvasRegular = function () {
