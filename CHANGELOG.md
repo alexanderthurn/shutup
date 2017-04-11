@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.3
+* Crazy colors
+
 ## 1.1.2
 * Switched to fullscreen view
 
