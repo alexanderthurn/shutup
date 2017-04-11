@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     var btnMute = document.getElementById('btnMute')
     var textInfo = document.getElementById('textInfo');
+    var btnInfo = document.getElementById('btnInfo');
 
 
     function showMessage(message) {
@@ -106,6 +107,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
         if (!error) {
+            textInfo.style.display = 'none'
             updateCanvasRegular()
         } else {
             canvasHistory.style.display = 'none'
@@ -128,6 +130,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 manualMuteFilter.gain.value = 1
                 showMessage(INTL_MUTE_ALARM)
             }
+        }
+    }
+
+    btnInfo.onclick = function () {
+        if (textInfo.style.display === 'none') {
+            textInfo.style.display = 'block'
+        } else {
+            textInfo.style.display = 'none'
         }
     }
 
@@ -200,15 +210,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         ctxHistory.textAlign = "left"
         ctxHistory.textBaseline = "top"
-        ctxHistory.fillText(INTL_Y_AXIS_LEGEND, 5, 0)
+        ctxHistory.fillText(INTL_Y_AXIS_LEGEND, 2, 2)
 
         ctxHistory.textAlign = "right"
         ctxHistory.textBaseline = "bottom"
-        ctxHistory.fillText(INTL_X_AXIS_LEGEND, canvasHistory.width, canvasHistory.height - 2)
+        ctxHistory.fillText(INTL_X_AXIS_LEGEND, canvasHistory.width - 2, canvasHistory.height - 2)
 
 
-        ctxHistory.fillRect(0, 0, 2, canvasHistory.height)
-        ctxHistory.fillRect(0, canvasHistory.height - 2, canvasHistory.width, 2)
+        //   ctxHistory.fillRect(0, 0, 2, canvasHistory.height)
+        //    ctxHistory.fillRect(0, canvasHistory.height - 2, canvasHistory.width, 2)
 
     }
 
