@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         ctxHistory.save()
         ctxHistory.translate(canvasHistory.width * 0.5, canvasHistory.height * 0.5)
-        for (let i = 0; i < noiseMuteFilter.gain.value * 10; i++) {
+        for (var i = 0; i < noiseMuteFilter.gain.value * 10; i++) {
             ctxHistory.rotate(1)
             ctxHistory.scale(0.9, 0.9)
             ctxHistory.fillText(INTL_SHUTUP_MESSAGE, canvasHistory.width * Math.random(), canvasHistory.height * Math.random())
