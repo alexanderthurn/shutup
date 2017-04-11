@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var btnMute = document.getElementById('btnMute')
     var textInfo = document.getElementById('textInfo');
     var btnInfo = document.getElementById('btnInfo');
+    var lineVolume = document.getElementById('lineVolume');
 
 
     function showMessage(message) {
@@ -163,22 +164,25 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     var updateCanvas = function (options) {
 
+        lineVolume.style.top = (1 - canvasHistorySelectedValue) * canvasHistory.height - 15;
+
         var my_gradient = ctxHistory.createLinearGradient(0, (1 - canvasHistorySelectedValue) * canvasHistory.height - 1, 0, canvasHistory.height);
         my_gradient.addColorStop(0, "darkred");
         my_gradient.addColorStop(0.5, "yellow");
         my_gradient.addColorStop(1, "green");
 
 
-        ctxHistory.fillStyle = '#000000'
+        ctxHistory.fillStyle = 'rgba(50,50,255,0.1)'
+        //  ctxHistory.fillStyle = 'rgba(0,0,0,0.1)'
         ctxHistory.fillRect(0, 0, canvasHistory.width, canvasHistory.height)
 
 
         ctxHistory.font = Math.min(canvasHistory.height, canvasHistory.width * 0.25) * 0.5 + "px Arial"
         ctxHistory.textAlign = "center"
         ctxHistory.textBaseline = "middle"
-        ctxHistory.fillStyle = 'rgba(255,0,0,' + noiseMuteFilter.gain.value * 0.5 + ')'
+        ctxHistory.fillStyle = 'rgba(255,0,0,' + noiseMuteFilter.gain.value * 0.1 + ')'
 
-        ctxHistory.fillText(INTL_SHUTUP_MESSAGE, canvasHistory.width * 0.5, canvasHistory.height * 0.5)
+        ctxHistory.fillText(INTL_SHUTUP_MESSAGE, canvasHistory.width * 0.5 + (0.5 - Math.random()) * canvasHistory.width * 0.01, canvasHistory.height * 0.5 + (0.5 - Math.random()) * canvasHistory.width * 0.01)
 
         ctxHistory.save()
         ctxHistory.translate(canvasHistory.width * 0.5, canvasHistory.height * 0.5)
@@ -197,28 +201,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
             ctxHistory.fillRect(i * canvasHistory.width / arrayLength, canvasHistory.height - value * canvasHistory.height, canvasHistory.width / arrayLength, value * canvasHistory.height)
         }
 
-        ctxHistory.fillStyle = '#ffffff'
-        ctxHistory.fillRect(0, (1 - canvasHistorySelectedValue) * canvasHistory.height - 1, canvasHistory.width, 2)
-
-
-        ctxHistory.font = "15px Arial"
-        ctxHistory.fillStyle = '#ffffff'
-        ctxHistory.textAlign = "left"
-        ctxHistory.textBaseline = "bottom"
-        ctxHistory.fillText(INTL_Y_AXIS_LEVEL_DESCRIPTION, 5, (1 - canvasHistorySelectedValue) * canvasHistory.height - 1)
-
-
-        ctxHistory.textAlign = "left"
-        ctxHistory.textBaseline = "top"
-        ctxHistory.fillText(INTL_Y_AXIS_LEGEND, 2, 2)
-
-        ctxHistory.textAlign = "right"
-        ctxHistory.textBaseline = "bottom"
-        ctxHistory.fillText(INTL_X_AXIS_LEGEND, canvasHistory.width - 2, canvasHistory.height - 2)
-
-
-        //   ctxHistory.fillRect(0, 0, 2, canvasHistory.height)
-        //    ctxHistory.fillRect(0, canvasHistory.height - 2, canvasHistory.width, 2)
 
     }
 
