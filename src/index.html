@@ -8,7 +8,21 @@
 
 </head>
 
-<body>
+<body style="margin:0px;background-color: #000000;">
+
+<canvas id="canvasHistory" style="width:100%;height:100%;margin:0px"></canvas>
+<a id="btnMute"
+   style="color: #ffffff;display: block;font:20px Arial;text-align: right; position: absolute; top: 0px; right:0px;padding:10px; border:1px solid white"><%=
+    INTL_MUTE_INITIAL %></a>
+
+<div id="textInfo"
+     style="color:#ffffff; text-align: center; width:80%; margin-left:10%;position: absolute;bottom: 0px;pointer-events: none">
+    <span style="pointer-events: none"><%=
+    INTL_DESCRIPTION %></span>
+    <p style="pointer-events: all;"><%=
+        INTL_DESCRIPTION_LINKS %></p>
+</div>
+
 
 </body>
 
