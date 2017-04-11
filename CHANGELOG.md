@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.2
+* Switched to fullscreen view
+
 ## 1.1.1
 * Readme updated
 
