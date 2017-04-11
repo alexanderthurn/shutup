@@ -11,43 +11,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var started = true
     var error = false
 
-
-    var canvasHistory = document.createElement('canvas')
-    canvasHistory.id = "canvasHistory"
+    var canvasHistory = document.getElementById('canvasHistory')
     canvasHistory.width = Math.floor(arrayLength)
-    canvasHistory.height = Math.floor(arrayLength * 0.3)
-    canvasHistory.style.width = '80%'
-    canvasHistory.style.marginLeft = '10%'
-    canvasHistory.style.marginTop = '10px'
-    document.body.appendChild(canvasHistory)
-    document.body.style.margin = 0
-    document.body.style.backgroundColor = '#000000'
+    canvasHistory.height = Math.floor(document.body.clientHeight)
 
-
-    var btnMute = document.createElement('a')
-    btnMute.id = 'btnMute'
-    btnMute.innerHTML = INTL_MUTE_INITIAL
-    btnMute.style.color = '#ffffff'
-    btnMute.style.display = 'block'
-    btnMute.style.font = '20px Arial'
-    btnMute.style.width = '80%'
-    btnMute.style.minHeight = '50px'
-    btnMute.style.marginLeft = '10%'
-    btnMute.style.textAlign = 'right'
-    btnMute.style.marginBottom = '20px'
-
-    document.body.appendChild(btnMute)
-
-
-    var textInfo = document.createElement('div');
-    textInfo.id = 'textInfo'
-    textInfo.style.marginLeft = '10%'
-    textInfo.style.width = '80%'
-    textInfo.style.textAlign = 'center'
-    textInfo.style.color = '#ffffff'
-    textInfo.innerHTML = INTL_DESCRIPTION;
-
-    document.body.appendChild(textInfo)
+    var btnMute = document.getElementById('btnMute')
+    var textInfo = document.getElementById('textInfo');
+    var btnInfo = document.getElementById('btnInfo');
 
 
     function showMessage(message) {
@@ -56,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     function showErrorBrowserNotSupporting(message, code) {
         error = true
-        btnMute.style.font = "24px Arial"
+        btnMute.style.font = "14px Arial"
         btnMute.style.textAlign = 'center'
 
         if (!message) {
@@ -136,7 +106,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
         showMessage(INTL_MUTE_ALARM)
 
 
+        if (!error) {
+            textInfo.style.display = 'none'
+            updateCanvasRegular()
+        } else {
+            canvasHistory.style.display = 'none'
+        }
+
+
     }, function () {
+        error = true;
         showErrorBrowserNotSupporting(null, 16)
         return
     })
@@ -151,6 +130,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 manualMuteFilter.gain.value = 1
                 showMessage(INTL_MUTE_ALARM)
             }
+        }
+    }
+
+    btnInfo.onclick = function () {
+        if (textInfo.style.display === 'none') {
+            textInfo.style.display = 'block'
+        } else {
+            textInfo.style.display = 'none'
         }
     }
 
@@ -181,19 +168,32 @@ document.addEventListener("DOMContentLoaded", function (event) {
         my_gradient.addColorStop(0.5, "yellow");
         my_gradient.addColorStop(1, "green");
 
+
         ctxHistory.fillStyle = '#000000'
         ctxHistory.fillRect(0, 0, canvasHistory.width, canvasHistory.height)
 
 
-        ctxHistory.font = canvasHistory.height * 0.5 + "px Arial"
+        ctxHistory.font = Math.min(canvasHistory.height, canvasHistory.width * 0.25) * 0.5 + "px Arial"
         ctxHistory.textAlign = "center"
         ctxHistory.textBaseline = "middle"
-        ctxHistory.fillStyle = 'rgba(255,0,0,' + noiseMuteFilter.gain.value + ')'
+        ctxHistory.fillStyle = 'rgba(255,0,0,' + noiseMuteFilter.gain.value * 0.5 + ')'
+
         ctxHistory.fillText(INTL_SHUTUP_MESSAGE, canvasHistory.width * 0.5, canvasHistory.height * 0.5)
+
+        ctxHistory.save()
+        ctxHistory.translate(canvasHistory.width * 0.5, canvasHistory.height * 0.5)
+        for (var i = 0; i < noiseMuteFilter.gain.value * 10; i++) {
+            ctxHistory.rotate(1)
+            ctxHistory.scale(0.9, 0.9)
+            ctxHistory.fillText(INTL_SHUTUP_MESSAGE, canvasHistory.width * Math.random(), canvasHistory.height * Math.random())
+        }
+
+        ctxHistory.restore()
 
         for (var i = 0; i < arrayLength; i++) {
             var value = values[i]
             ctxHistory.fillStyle = my_gradient
+            //  ctxHistory.rotate((1.0 / 360.) * Math.PI * 2)
             ctxHistory.fillRect(i * canvasHistory.width / arrayLength, canvasHistory.height - value * canvasHistory.height, canvasHistory.width / arrayLength, value * canvasHistory.height)
         }
 
@@ -210,15 +210,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         ctxHistory.textAlign = "left"
         ctxHistory.textBaseline = "top"
-        ctxHistory.fillText(INTL_Y_AXIS_LEGEND, 5, 0)
+        ctxHistory.fillText(INTL_Y_AXIS_LEGEND, 2, 2)
 
         ctxHistory.textAlign = "right"
         ctxHistory.textBaseline = "bottom"
-        ctxHistory.fillText(INTL_X_AXIS_LEGEND, canvasHistory.width, canvasHistory.height - 2)
+        ctxHistory.fillText(INTL_X_AXIS_LEGEND, canvasHistory.width - 2, canvasHistory.height - 2)
 
 
-        ctxHistory.fillRect(0, 0, 2, canvasHistory.height)
-        ctxHistory.fillRect(0, canvasHistory.height - 2, canvasHistory.width, 2)
+        //   ctxHistory.fillRect(0, 0, 2, canvasHistory.height)
+        //    ctxHistory.fillRect(0, canvasHistory.height - 2, canvasHistory.width, 2)
 
     }
 
@@ -250,15 +250,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
             updateCanvas({tooLoud: tooLoud})
             updateCanvasRegular()
+
         }, 30)
     }
-    updateCanvasRegular()
 
 
     window.onresize = function (event) {
         arrayLength = Math.floor(document.body.clientWidth)
         canvasHistory.width = Math.floor(arrayLength)
-        canvasHistory.height = Math.floor(arrayLength * 0.3)
+        canvasHistory.height = Math.floor(document.body.clientHeight)
 
         while (values.length < arrayLength) {
             values.push(0)
