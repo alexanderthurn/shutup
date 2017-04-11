@@ -7,11 +7,16 @@ This HTML5 app uses your microphone to detect if it is too loud in your room.
 If the volume exceeds a defined limit, a sine alarm is played to make clear that the volume is too high.
 As "too high" depends on the user, this value can be changed in realtime. Hint: The alarm sound itself can be louder than the allowed volume, which causes no problems at all. It is extracted by a notch filter, preventing a never ending alarm.
 
+
+## Demo
+
+You can try the app  [here](https://shutup.froso.de). Make sure to use a modern browser supporting the WebAudioApi and the Canvas element.
+
+## Screenshots
+
 ![Screenshot1](misc/shutup1.jpeg?raw=true "Screenshot1")
 ![Screenshot2](misc/shutup2.jpeg?raw=true "Screenshot2")
 
-## Demo
-You can try the app  [here](https://shutup.froso.de). Make sure to use a modern browser supporting the WebAudioApi and the Canvas element.
 
 ## List of technologies
 
