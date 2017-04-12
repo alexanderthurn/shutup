@@ -1,14 +1,21 @@
-# Shutup App - Make your room silent!
+# Shutup App - Tell others to be quiet!
 
 
 ## Short summary
 
-This HTML5 app uses your microphone to detect if it is too loud in your room.
-If the volume exceeds a defined limit, a sine alarm is played to make clear that the volume is too high.
-As "too high" depends on the user, this value can be changed in realtime. Hint: The alarm sound itself can be louder than the allowed volume, which causes no problems at all. It is extracted by a notch filter, preventing a never ending alarm.
+Are you tired of asking others to be silent over and over again, when they just forget to be quiet? This HTML5 app uses your microphone to detect if it is too loud in your room.
+If the volume exceeds a defined limit, a sine alarm is played to make clear that the volume is too high. As "too high" depends on the user, this value can be changed in realtime. Hint: The alarm sound itself can be louder than the allowed volume, which causes no problems at all. It is extracted by a notch filter, preventing a never ending alarm.
+After a while your colleagues, room mates or whoever disturbs you, will learn to keep the agreed noise limit.
 
 ## Demo
+
 You can try the app  [here](https://shutup.froso.de). Make sure to use a modern browser supporting the WebAudioApi and the Canvas element.
+
+## Screenshots
+
+![Screenshot1](misc/shutup1.jpeg?raw=true "Screenshot1")
+![Screenshot2](misc/shutup2.jpeg?raw=true "Screenshot2")
+
 
 ## List of technologies
 
@@ -66,7 +73,7 @@ updateCanvasRegular = function () {
 
 ## Known issues
 
-* Right now I am not too sure about the unit of the volume. It could be "db" but I just multiplied the value with a constant to get a good "0..1" range
+* Right now I am not too sure about the unit of the volume. It could be "db" but I just multiplied the value with a constant to get a good [0,1] range
 * The rendering can be highly optimized
 * A UX Designer could improve the UI ;-)
 

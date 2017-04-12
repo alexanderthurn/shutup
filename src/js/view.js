@@ -10,15 +10,18 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var arrayLength = Math.floor(document.body.clientWidth)
     var started = true
     var error = false
-
     var canvasHistory = document.getElementById('canvasHistory')
-    canvasHistory.width = Math.floor(arrayLength)
-    canvasHistory.height = Math.floor(document.body.clientHeight)
-
     var btnMute = document.getElementById('btnMute')
     var textInfo = document.getElementById('textInfo');
     var btnInfo = document.getElementById('btnInfo');
     var lineVolume = document.getElementById('lineVolume');
+    var axisX = document.getElementById('axisX');
+    var canvasHistorySelectedValue = 0.5
+    var axisY = document.getElementById('axisY');
+
+
+    canvasHistory.width = Math.floor(arrayLength)
+    canvasHistory.height = Math.floor(document.body.clientHeight)
 
 
     function showMessage(message) {
@@ -29,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         error = true
         btnMute.style.font = "14px Arial"
         btnMute.style.textAlign = 'center'
+        btnMute.style.display = 'block';
 
         if (!message) {
             if (window.location.protocol && window.location.protocol.indexOf('https') > -1) {
@@ -81,14 +85,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
     biquadFilter.type = "notch"
     biquadFilter.frequency.value = sineFrequency
     biquadFilter.Q.value = 0.01
-
     var analyserNode = audioCtxMic.createAnalyser()
     analyserNode.smoothingTimeConstant = 0.3
     analyserNode.fftSize = 1024
-
     var javascriptNode = audioCtxMic.createScriptProcessor(1024, 1, 1)
     javascriptNode.onaudioprocess = function () {
-
         var array = new Uint8Array(analyserNode.frequencyBinCount)
         analyserNode.getByteFrequencyData(array)
         var average = helper.getAverageValue(array)
@@ -97,6 +98,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
     navigator.getUserMedia({audio: true}, function (stream) {
+        btnInfo.style.display = 'block';
+        lineVolume.style.display = 'block';
+        textInfo.style.display = 'block';
+
+
         console.log('getUserMedia', stream)
         sourceNode = audioCtxMic.createMediaStreamSource(stream)
 
@@ -137,13 +143,17 @@ document.addEventListener("DOMContentLoaded", function (event) {
     btnInfo.onclick = function () {
         if (textInfo.style.display === 'none') {
             textInfo.style.display = 'block'
+            axisX.style.display = 'block';
+            axisY.style.display = 'block';
+            btnMute.style.display = 'block';
         } else {
             textInfo.style.display = 'none'
+            axisX.style.display = 'none';
+            axisY.style.display = 'none';
+            btnMute.style.display = 'none';
         }
     }
 
-
-    var canvasHistorySelectedValue = 0.5
 
     canvasHistory.addEventListener('click', function (event) {
 

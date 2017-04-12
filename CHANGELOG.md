@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.1.4
+* Simplified UI
+* Readme updated
+* Better error messages
+
 ## 1.1.3
 * Crazy colors
 
