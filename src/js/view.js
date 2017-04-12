@@ -19,6 +19,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var textInfo = document.getElementById('textInfo');
     var btnInfo = document.getElementById('btnInfo');
     var lineVolume = document.getElementById('lineVolume');
+    var axisX = document.getElementById('axisX');
+    var axisY = document.getElementById('axisY');
+
+
+    btnMute.style.display = 'block';
 
 
     function showMessage(message) {
@@ -97,6 +102,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
     navigator.getUserMedia({audio: true}, function (stream) {
+
+
+        btnInfo.style.display = 'block';
+        lineVolume.style.display = 'block';
+        textInfo.style.display = 'block';
+        axisX.style.display = 'block';
+        axisY.style.display = 'block';
+
         console.log('getUserMedia', stream)
         sourceNode = audioCtxMic.createMediaStreamSource(stream)
 

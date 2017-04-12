@@ -28,7 +28,7 @@ function getUserMedia() {
 }
 
 function getAudioContext() {
-    return ( AudioContext || window.AudioContext ||
+    return ( window.AudioContext ||
     window.webkitAudioContext ||
     window.mozAudioContext ||
     window.msAudioContext)
