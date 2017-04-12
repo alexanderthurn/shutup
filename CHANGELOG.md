@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.0
+* Readme updated
+
 ## 1.1.4
 * Simplified UI
 * Readme updated
