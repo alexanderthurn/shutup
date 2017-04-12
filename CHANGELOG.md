@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.1
+* Code documented
+
 ## 1.2.0
 * Readme updated
 
