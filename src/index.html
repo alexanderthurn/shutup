@@ -5,44 +5,123 @@
     <meta id="meta-description" name="description" content="<%= INTL_META_DESCRIPTION %>">
     <meta id="meta-tags" name="tags" content="<%= INTL_META_TAGS %>">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes">
+    <style>
+        body {
+            margin: 0px;
+            background-color: rgb(50, 50, 255);
+        }
 
+        #canvasHistory {
+            width: 100%;
+            height: 100%;
+            margin: 0px
+        }
+
+        #btnMute {
+            color: #ffffff;
+            display: none;
+            font: 20px Arial;
+            text-align: right;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            padding: 10px;
+            border: 1px solid white;
+        }
+
+        #btnInfo {
+            color: #ffffff;
+            display: none;
+            font: 20px Arial;
+            text-align: left;
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            padding: 10px;
+            border: 1px solid white
+        }
+
+        #axisY {
+            text-align: left;
+            color: #fff;
+            display: none;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+        }
+
+        #axisX {
+            text-align: right;
+            color: #fff;
+            display: none;
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+        }
+
+        #lineVolume {
+            text-align: left;
+            color: #fff;
+            display: none;
+            position: absolute;
+            left: 2px;
+            line-height: 5px;
+            right: 2px;
+            top: 50px;
+            pointer-events: none
+        }
+
+        #textInfo {
+            color: #ffffff;
+            text-align: center;
+            width: 80%;
+            margin-left: 10%;
+            position: absolute;
+            bottom: 0px;
+            pointer-events: none
+        }
+
+        .noTouch {
+            pointer-events: none
+        }
+
+        .forceTouch {
+            pointer-events: all;
+        }
+    </style>
 </head>
 
-<body style="margin:0px;background-color: rgb(50,50,255);">
+<body>
 
-<canvas id="canvasHistory" style="width:100%;height:100%;margin:0px"></canvas>
-<a id="btnMute"
-   style="color: #ffffff;display: none;font:20px Arial;text-align: right; position: absolute; top: 2px; right:2px;padding:10px; border:1px solid white"><%=
+<canvas id="canvasHistory"></canvas>
+<a id="btnMute"><%=
     INTL_MUTE_INITIAL %></a>
 
-<a id="btnInfo"
-   style="color: #ffffff;display: none;font:20px Arial;text-align: left; position: absolute; bottom: 2px; left:2px;padding:10px; border:1px solid white"><%=
+<a id="btnInfo"><%=
     INTL_BTN_INFO %></a>
 
 
-<div id="axisY" style="text-align:left; color: #fff;display: none; position:absolute; top:2px;left:2px;">
+<div id="axisY">
     <%=
     INTL_Y_AXIS_LEGEND %>
 </div>
 
-<div id="axisX" style="text-align:right; color: #fff;display: none; position:absolute; bottom:2px;right:2px;">
+<div id="axisX">
     <%=
     INTL_X_AXIS_LEGEND %>
 </div>
 
-<div id="lineVolume"
-     style="text-align:left; color: #fff;display: none; position:absolute; left:2px; line-height:5px;right:2px;top:50px;pointer-events: none">
+<div id="lineVolume">
     <%=
     INTL_Y_AXIS_LEVEL_DESCRIPTION %>
     <hr>
 </div>
 
 
-<div id="textInfo"
-     style="color:#ffffff; text-align: center; width:80%; margin-left:10%;position: absolute;bottom: 0px;pointer-events: none">
-    <span style="pointer-events: none"><%=
+<div id="textInfo">
+    <span class="noTouch"><%=
     INTL_DESCRIPTION %></span>
-    <p style="pointer-events: all;"><%=
+    <p class="forceTouch"><%=
         INTL_DESCRIPTION_LINKS %></p>
 </div>
 
