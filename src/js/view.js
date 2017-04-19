@@ -242,6 +242,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     }
 
+    var timeTooLoud, timeTooLoudStart
     // main loop, calls the render method each 30ms + calculates the current average volume + activates the alarm
     var updateCanvasRegular = function () {
 
@@ -259,27 +260,43 @@ document.addEventListener("DOMContentLoaded", function (event) {
         values.unshift(globalAverage)
         values.pop()
 
-        // we want the average of the last 30 recorded audio frames
-        var currentValue = helper.getAverageValue(values.slice(0, 30))
+        // we want the current value and not the average of the last 30 recorded audio frames
+        var currentValue = globalAverage // helper.getAverageValue(values.slice(0, 10))
 
         // if the volume is too loud, increase the value of the alarm gain node based on "how loud it is"
         var tooLoud = currentValue > canvasHistorySelectedValue
         if (tooLoud) {
 
-            if (noiseMuteFilter.gain.value < 0.1) {
-                noiseMuteFilter.gain.value = 0.1
-            } else {
-                noiseMuteFilter.gain.value *= (1.05 + (currentValue - canvasHistorySelectedValue) * 0.2 * dtFactor)
-                if (noiseMuteFilter.gain.value > 1.0) {
-                    noiseMuteFilter.gain.value = 1.0
-                }
+
+            // get the start of a too loud phase
+            if (timeTooLoud === undefined || now - (timeTooLoud || now) > 600) {
+                timeTooLoudStart = now
             }
+
+
+            // increase volume in steps of 1/10 of 3 seconds
+            var perc = Math.floor((now - (timeTooLoudStart || now)) / 3000 * 10)
+
+            if (perc > 10) {
+                perc = 10;
+            }
+
+            if (perc < 2) { // the first two steps are not as loud as the other steps to make the noise not so annoying
+                noiseMuteFilter.gain.value = perc * 0.1
+            } else {
+                noiseMuteFilter.gain.value = perc
+            }
+
+            timeTooLoud = now
+
         } else {
 
-            // if the volume gets back to normal, reduce the volume over time
-            noiseMuteFilter.gain.value *= (1 - 0.05 * dtFactor)
-        }
+            // no alarm after 600ms of not being too loud
+            if (now - (timeTooLoud || now) > 600) {
+                noiseMuteFilter.gain.value = 0
+            }
 
+        }
 
         updateCanvas({tooLoud: tooLoud})
         window.requestAnimationFrame(updateCanvasRegular)
