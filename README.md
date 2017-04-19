@@ -64,9 +64,11 @@ biquadFilter.Q.value = 0.01
 ```javascript
 // listenToMic, display volume over time on canvas
 updateCanvasRegular = function () {
-     setTimeout(function () {
-        // render
-     }, 30)
+
+    // update arlam based on the volume
+   	// render canvas
+
+     window.requestAnimationFrame(updateCanvasRegular)
  }
 
 ```
