@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.0
+* new algorithm for volume calculation (thinking in steps)
+
 ## 1.2.2
 * using window.requestAnimationFrame instead of setTimeout for smoother rendering
 * using navigator.mediaDevices.getUserMedia  instead of navigator.getUserMedia

@@ -27,7 +27,7 @@ You can try the app [here](https://shutup.froso.de). Make sure to use a modern b
 
 1. It accesses the microphone via the Web Audio Api and starts recording.
 ```javascript
-navigator.getUserMedia({audio: true}, function (stream) {
+navigator.mediaDevices.getUserMedia({audio: true}).then(function (stream) {
      // start recording
 });
 
