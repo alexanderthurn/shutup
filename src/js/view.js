@@ -240,40 +240,39 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     // main loop, calls the render method each 30ms + calculates the current average volume + activates the alarm
     var updateCanvasRegular = function () {
-        setTimeout(function () {
 
-            values.unshift(globalAverage)
-            values.pop()
 
-            // we want the average of the last 30 recorded audio frames
-            var currentValue = helper.getAverageValue(values.slice(0, 30))
+        values.unshift(globalAverage)
+        values.pop()
 
-            // if the volume is too loud, increase the value of the alarm gain node based on "how loud it is"
-            var tooLoud = currentValue > canvasHistorySelectedValue
-            if (tooLoud) {
+        // we want the average of the last 30 recorded audio frames
+        var currentValue = helper.getAverageValue(values.slice(0, 30))
 
-                if (noiseMuteFilter.gain.value < 0.1) {
-                    noiseMuteFilter.gain.value = 0.1
-                } else {
-                    noiseMuteFilter.gain.value *= (1.05 + (currentValue - canvasHistorySelectedValue) * 0.2)
-                    if (noiseMuteFilter.gain.value > 1.0) {
-                        noiseMuteFilter.gain.value = 1.0
-                    }
-                }
+        // if the volume is too loud, increase the value of the alarm gain node based on "how loud it is"
+        var tooLoud = currentValue > canvasHistorySelectedValue
+        if (tooLoud) {
+
+            if (noiseMuteFilter.gain.value < 0.1) {
+                noiseMuteFilter.gain.value = 0.1
             } else {
-
-                // if the volume gets back to normal, reduce the volume over time
-                noiseMuteFilter.gain.value *= 0.95
+                noiseMuteFilter.gain.value *= (1.05 + (currentValue - canvasHistorySelectedValue) * 0.2)
+                if (noiseMuteFilter.gain.value > 1.0) {
+                    noiseMuteFilter.gain.value = 1.0
+                }
             }
+        } else {
+
+            // if the volume gets back to normal, reduce the volume over time
+            noiseMuteFilter.gain.value *= 0.95
+        }
 
 
-            updateCanvas({tooLoud: tooLoud})
-            updateCanvasRegular()
+        updateCanvas({tooLoud: tooLoud})
+        window.requestAnimationFrame(updateCanvasRegular)
 
-        }, 30)
     }
 
-    // recalculate the canvas size after resize events
+// recalculate the canvas size after resize events
     window.onresize = function (event) {
         arrayLength = Math.floor(document.body.clientWidth)
         canvasHistory.width = Math.floor(arrayLength)
