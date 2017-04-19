@@ -11,7 +11,7 @@
   "SHUTUP_MESSAGE": "SHUT UP",
   "Y_AXIS_LEVEL_DESCRIPTION": "Maximum noise that you are willing to take (click anywhere to change the value)",
   "Y_AXIS_LEGEND": "Noise level (percentage)",
-  "X_AXIS_LEGEND": "Time (seconds)",
+  "X_AXIS_LEGEND": "Time (frames)",
   "MUTE_INITIAL": "1. Allow mic access<br />2. Turn your speaker on",
   "BTN_INFO": "Info"
 }

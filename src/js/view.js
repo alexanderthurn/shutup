@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var axisX = document.getElementById('axisX');
     var axisY = document.getElementById('axisY');
     var ctxHistory = canvasHistory.getContext("2d")
+    var time;
     var values = []
     // prefill the array
     for (var i = 0; i < arrayLength; i++) {
@@ -60,17 +61,19 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 
     // get audio stuff together using helper methods for maximum compatibility
-    var AudioContext = helper.getAudioContext()
-    navigator.getUserMedia = helper.getUserMedia()
+    helper.setAudioContextWithFallback()
+    helper.setUserMediaWithFallback()
+    helper.setRequestAnmationFrameWithFallback()
+
 
     // if the browser does not support audio stuff, show him an error message
-    if (!AudioContext || !navigator.getUserMedia || !Array.prototype.slice) {
-        showErrorBrowserNotSupporting(null, (!AudioContext * 2) + (!navigator.getUserMedia * 4) + (!Array.prototype.slice * 8))
+    if (!window.AudioContext || !navigator.mediaDevices.getUserMedia || !Array.prototype.slice) {
+        showErrorBrowserNotSupporting(null, (!AudioContext * 2) + (!navigator.mediaDevices.getUserMedia * 4) + (!Array.prototype.slice * 8))
         return
     }
 
-    var audioCtx = new AudioContext()
-    var audioCtxMic = new AudioContext()
+    var audioCtx = new window.AudioContext()
+    var audioCtxMic = new window.AudioContext()
 
     // create oscillator node for the alarm
     var oscillator = audioCtx.createOscillator()
@@ -116,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
 
     // ask for mic permission
-    navigator.getUserMedia({audio: true}, function (stream) {
+    navigator.mediaDevices.getUserMedia({audio: true}).then(function (stream) {
 
         //display stuff if it works
         btnInfo.style.display = 'block';
@@ -147,10 +150,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
         }
 
 
-    }, function () {
+    }).catch(function (err) {
 
         // the user did not allow it or it did not work
         error = true;
+        console.log(err.name + ": " + err.message);
         showErrorBrowserNotSupporting(null, 16)
         return
     })
@@ -240,40 +244,49 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     // main loop, calls the render method each 30ms + calculates the current average volume + activates the alarm
     var updateCanvasRegular = function () {
-        setTimeout(function () {
 
-            values.unshift(globalAverage)
-            values.pop()
+        var now = new Date().getTime(),
+            dt = now - (time || now);
 
-            // we want the average of the last 30 recorded audio frames
-            var currentValue = helper.getAverageValue(values.slice(0, 30))
+        var dtFactor = dt / 30.0;
+        if (dtFactor < 0.001) {
+            dtFactor = 0.001;
+        } else if (dtFactor > 5.0) {
+            dtFactor = 5.0;
+        }
+        time = now;
 
-            // if the volume is too loud, increase the value of the alarm gain node based on "how loud it is"
-            var tooLoud = currentValue > canvasHistorySelectedValue
-            if (tooLoud) {
+        values.unshift(globalAverage)
+        values.pop()
 
-                if (noiseMuteFilter.gain.value < 0.1) {
-                    noiseMuteFilter.gain.value = 0.1
-                } else {
-                    noiseMuteFilter.gain.value *= (1.05 + (currentValue - canvasHistorySelectedValue) * 0.2)
-                    if (noiseMuteFilter.gain.value > 1.0) {
-                        noiseMuteFilter.gain.value = 1.0
-                    }
-                }
+        // we want the average of the last 30 recorded audio frames
+        var currentValue = helper.getAverageValue(values.slice(0, 30))
+
+        // if the volume is too loud, increase the value of the alarm gain node based on "how loud it is"
+        var tooLoud = currentValue > canvasHistorySelectedValue
+        if (tooLoud) {
+
+            if (noiseMuteFilter.gain.value < 0.1) {
+                noiseMuteFilter.gain.value = 0.1
             } else {
-
-                // if the volume gets back to normal, reduce the volume over time
-                noiseMuteFilter.gain.value *= 0.95
+                noiseMuteFilter.gain.value *= (1.05 + (currentValue - canvasHistorySelectedValue) * 0.2 * dtFactor)
+                if (noiseMuteFilter.gain.value > 1.0) {
+                    noiseMuteFilter.gain.value = 1.0
+                }
             }
+        } else {
+
+            // if the volume gets back to normal, reduce the volume over time
+            noiseMuteFilter.gain.value *= (1 - 0.05 * dtFactor)
+        }
 
 
-            updateCanvas({tooLoud: tooLoud})
-            updateCanvasRegular()
+        updateCanvas({tooLoud: tooLoud})
+        window.requestAnimationFrame(updateCanvasRegular)
 
-        }, 30)
     }
 
-    // recalculate the canvas size after resize events
+// recalculate the canvas size after resize events
     window.onresize = function (event) {
         arrayLength = Math.floor(document.body.clientWidth)
         canvasHistory.width = Math.floor(arrayLength)

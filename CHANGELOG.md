@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+* using window.requestAnimationFrame instead of setTimeout for smoother rendering
+* using navigator.mediaDevices.getUserMedia  instead of navigator.getUserMedia
+
 ## 1.2.1
 * Code documented
 
