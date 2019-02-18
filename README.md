@@ -16,6 +16,16 @@ You can try the app [here](https://shutup.froso.de). Make sure to use a modern b
 ![Screenshot1](misc/shutup1.jpeg?raw=true "Screenshot1")
 ![Screenshot2](misc/shutup2.jpeg?raw=true "Screenshot2")
 
+## How to start
+
+* Open a terminal and run ```npm install```
+* Then run ```npm run dev```
+* Open http://localhost:9000 in your browser and allow access
+
+# Build
+
+* Open a terminal and run ```npm run build:production```
+* Your files will be located unter ./dist/ and can be copied to your webserver
 
 ## List of technologies
 

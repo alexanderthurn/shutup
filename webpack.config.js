@@ -35,10 +35,10 @@ var config = {
         filename: "bundle.js"
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.html$/,
-                loader: 'ejs-loader'
+                use: 'ejs-loader'
             }
         ]
     },
@@ -94,6 +94,8 @@ if (isProduction) {
         new HtmlWebpackInlineSourcePlugin()
     );
 }
+
+config.mode = isProduction ? 'production' : 'development';
 
 
 module.exports = config;
