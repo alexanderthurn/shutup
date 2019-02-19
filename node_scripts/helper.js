@@ -1,7 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var brotli = require('brotli');
-var zopfli = require('node-zopfli');
+var zopfli = require('node-zopfli-es');
 
 exports.walk = function (dir, done) {
     var results = [];
