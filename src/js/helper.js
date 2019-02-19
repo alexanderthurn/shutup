@@ -85,12 +85,12 @@ function setAudioContextWithFallback() {
 }
 
 
-module.exports = {
-    getCursorPosition: getCursorPosition,
-    setRequestAnmationFrameWithFallback: setRequestAnmationFrameWithFallback,
-    getAverageValue: getAverageValue,
-    setUserMediaWithFallback: setUserMediaWithFallback,
-    setAudioContextWithFallback: setAudioContextWithFallback
+export {
+    getCursorPosition,
+    setRequestAnmationFrameWithFallback,
+    getAverageValue,
+    setUserMediaWithFallback,
+    setAudioContextWithFallback
 }
 
 
