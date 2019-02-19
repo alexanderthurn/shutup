@@ -17,12 +17,6 @@ var isProduction = process.env.NODE_ENV === 'production';
 console.log('Building with NODE_ENV', process.env.NODE_ENV, path.join(__dirname, "dist"));
 
 var config = {
-    /*  watch: !isProduction,
-     watchOptions: {
-     aggregateTimeout: 300,
-     poll: 1000,
-     ignored: /node_modules/
-     },*/
     devServer: {
         contentBase: path.join(__dirname, "dist"),
         compress: false,
@@ -35,44 +29,16 @@ var config = {
         filename: "bundle.js"
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.html$/,
-                loader: 'ejs-loader'
+                use: 'ejs-loader'
             }
         ]
     },
 
     plugins: [new WebpackCleanupPlugin()]
 };
-
-
-if (isProduction) {
-    config.plugins.push(
-        new UglifyJsPlugin({
-            compress: {
-                sequences: true,
-                properties: true,
-                drop_debugger: true,
-                dead_code: true,
-                unsafe: true,
-                conditionals: true,
-                comparisons: true,
-                evaluate: true,
-                booleans: true,
-                unused: true,
-                loops: true,
-                cascade: true,
-                keep_fargs: false,
-                if_return: true,
-                join_vars: true,
-                drop_console: true
-            },
-            'mangle-props': true,
-            mangle: true,
-            beautify: false
-        }));
-}
 
 
 config.plugins.push(
@@ -95,6 +61,11 @@ if (isProduction) {
     );
 }
 
+config.mode = isProduction ? 'production' : 'development';
+
+config.optimization = {
+    minimize: isProduction
+}
 
 module.exports = config;
 
